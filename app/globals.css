@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+
+:root {
+  --bg: #f9fafb;
+  --surface: #ffffff;
+  --line: #f2f4f6;
+  --line-strong: #e5e8eb;
+  --ink-900: #191f28;
+  --ink-500: #4e5968;
+  --ink-300: #8b95a1;
+  --brand: #3182f6;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink-900);
+  font-family: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+::selection {
+  background: #d6e9ff;
+  color: var(--ink-900);
+}
+
+/* Hide scrollbar for horizontal chip rows */
+.chip-row {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.chip-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* Default scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d6db;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b0b8c1;
+}
