@@ -17,11 +17,11 @@ const FREQ_KEYS = Object.keys(frequencyLabels) as Frequency[];
 
 export default function Home() {
   const [query, setQuery] = useState("");
-  const [activeCategories, setActiveCategories] = useState<Set<Category>>(
-    new Set()
-  );
   const [activeFrequencies, setActiveFrequencies] = useState<Set<Frequency>>(
-    new Set()
+    new Set(FREQ_KEYS),
+  );
+  const [activeCategories, setActiveCategories] = useState<Set<Category>>(
+    new Set(CATEGORY_KEYS),
   );
 
   const filtered = useMemo(() => {
@@ -48,13 +48,13 @@ export default function Home() {
   };
 
   const hasActiveFilters =
-    activeCategories.size > 0 ||
-    activeFrequencies.size > 0 ||
+    activeCategories.size !== CATEGORY_KEYS.length ||
+    activeFrequencies.size !== FREQ_KEYS.length ||
     query.length > 0;
 
   const clearAll = () => {
-    setActiveCategories(new Set());
-    setActiveFrequencies(new Set());
+    setActiveCategories(new Set(CATEGORY_KEYS));
+    setActiveFrequencies(new Set(FREQ_KEYS));
     setQuery("");
   };
 
@@ -101,9 +101,7 @@ export default function Home() {
             <Chip
               key={f}
               active={activeFrequencies.has(f)}
-              onClick={() =>
-                setActiveFrequencies((prev) => toggle(prev, f))
-              }
+              onClick={() => setActiveFrequencies((prev) => toggle(prev, f))}
               label={frequencyLabels[f]}
               count={freqCount(f)}
             />
@@ -118,9 +116,7 @@ export default function Home() {
             <Chip
               key={c}
               active={activeCategories.has(c)}
-              onClick={() =>
-                setActiveCategories((prev) => toggle(prev, c))
-              }
+              onClick={() => setActiveCategories((prev) => toggle(prev, c))}
               label={categoryLabels[c]}
               count={catCount(c)}
             />
