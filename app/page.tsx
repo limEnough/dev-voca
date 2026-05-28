@@ -106,7 +106,7 @@ export default function Home() {
           </p>
         </div>
         <a
-          href="https://github.com"
+          href="https://github.com/limEnough/dev-voca"
           className="flex h-9 w-9 items-center justify-center rounded-full bg-line transition-colors hover:bg-line-strong"
           aria-label="GitHub"
         >
@@ -139,7 +139,7 @@ export default function Home() {
       </div>
 
       {/* ===== Category chips ===== */}
-      <div className="mt-4">
+      <div className="mt-4 overflow-hidden">
         <ChipRow label="카테고리">
           {CATEGORY_KEYS.map((c) => (
             <Chip

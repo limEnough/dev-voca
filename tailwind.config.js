@@ -8,11 +8,11 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: [
-          "Pretendard",
+          '"Asta Sans"',
           "-apple-system",
           "BlinkMacSystemFont",
           "system-ui",
-          "Roboto",
+          '"Apple SD Gothic Neo"',
           "sans-serif",
         ],
       },
