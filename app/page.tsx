@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   vocabulary,
   categoryLabels,
@@ -14,6 +14,7 @@ import { VocabCard } from "@/components/VocabCard";
 
 const CATEGORY_KEYS = Object.keys(categoryLabels) as Category[];
 const FREQ_KEYS = Object.keys(frequencyLabels) as Frequency[];
+const PAGE_SIZE = 30;
 
 export default function Home() {
   const [query, setQuery] = useState("");
@@ -63,6 +64,34 @@ export default function Home() {
     vocabulary.filter((v) => v.category === c).length;
   const freqCount = (f: Frequency) =>
     vocabulary.filter((v) => v.frequency === f).length;
+
+  // Infinite scroll
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [query, activeCategories, activeFrequencies]);
+
+  useEffect(() => {
+    const node = sentinelRef.current;
+    if (!node) return;
+    if (visibleCount >= filtered.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setVisibleCount((c) => Math.min(c + PAGE_SIZE, filtered.length));
+        }
+      },
+      { rootMargin: "240px 0px" },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [filtered.length, visibleCount]);
+
+  const visibleItems = filtered.slice(0, visibleCount);
+  const hasMore = visibleCount < filtered.length;
 
   return (
     <main className="mx-auto w-full max-w-[760px] px-5 pb-24 pt-8 md:px-6 md:pt-12">
@@ -151,7 +180,19 @@ export default function Home() {
             </p>
           </div>
         ) : (
-          filtered.map((v, i) => <VocabCard key={`${v.word}-${i}`} vocab={v} />)
+          <>
+            {visibleItems.map((v, i) => (
+              <VocabCard key={`${v.word}-${i}`} vocab={v} />
+            ))}
+            {hasMore && (
+              <div
+                ref={sentinelRef}
+                className="flex items-center justify-center py-6 text-[13px] font-medium text-ink-300"
+              >
+                불러오는 중…
+              </div>
+            )}
+          </>
         )}
       </section>
 
